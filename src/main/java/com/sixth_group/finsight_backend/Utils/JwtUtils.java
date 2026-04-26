@@ -1,4 +1,4 @@
-package com.sixth_group.finsight_backend.Utils;
+package com.sixth_group.finsight_backend.utils;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

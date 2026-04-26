@@ -3,9 +3,9 @@ spring:
     name: FinSight_backend
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://gateway01.ap-southeast-1.prod.aws.tidbcloud.com:4000/
-    username: 2Z2dkBWwpS3FSfM.root
-    password: DHwEq7zbCQwRwm6e
+    url: jdbc:mysql://@gateway01.ap-northeast-1.prod.aws.tidbcloud.com:4000/
+    username: 29sgX2T644bJ6gr.root
+    password: 3rWs9PxMcATUqk03
 
 mybatis:
   configuration:

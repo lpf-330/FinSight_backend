@@ -7,6 +7,10 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
+/**
+ * 统一响应结果类
+ * 用于封装API接口的返回结果，包含状态码、消息和数据
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
