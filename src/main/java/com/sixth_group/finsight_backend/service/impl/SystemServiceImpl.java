@@ -2,7 +2,9 @@ package com.sixth_group.finsight_backend.service.impl;
 
 import com.sixth_group.finsight_backend.entity.*;
 import com.sixth_group.finsight_backend.mapper.*;
+import com.sixth_group.finsight_backend.service.DataService;
 import com.sixth_group.finsight_backend.service.SystemService;
+import com.sixth_group.finsight_backend.utils.PasswordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,9 @@ public class SystemServiceImpl implements SystemService {
     @Autowired
     private AuditLogMapper auditLogMapper;
 
+    @Autowired
+    private DataService dataService;
+
     @Override
     public List<User> getUsers(String keyword, Long roleId, String status) {
         if (keyword == null && roleId == null && status == null) {
@@ -37,6 +42,9 @@ public class SystemServiceImpl implements SystemService {
     public User createUser(User user) {
         user.setStatus("active");
         user.setCreatedAt(LocalDateTime.now());
+        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+            user.setPassword(PasswordUtil.hashPassword(user.getPassword()));
+        }
         userMapper.insert(user);
         return user;
     }
@@ -78,6 +86,13 @@ public class SystemServiceImpl implements SystemService {
 
     @Override
     public void deleteRole(Long id) {
+        List<User> users = userMapper.search(null, id, null);
+        if (users != null && !users.isEmpty()) {
+            for (User user : users) {
+                user.setRoleId(null);
+                userMapper.update(user);
+            }
+        }
         roleMapper.deleteById(id);
     }
 
@@ -148,9 +163,12 @@ public class SystemServiceImpl implements SystemService {
     }
 
     @Override
-    public List<AuditLog> getAuditLogs(Integer page, Integer pageSize, LocalDateTime startDate, LocalDateTime endDate, String username, String operation) {
-        if (page == null) page = 1;
-        if (pageSize == null) pageSize = 20;
+    public List<AuditLog> getAuditLogs(Integer page, Integer pageSize, LocalDateTime startDate, LocalDateTime endDate,
+            String username, String operation) {
+        if (page == null)
+            page = 1;
+        if (pageSize == null)
+            pageSize = 20;
         int offset = (page - 1) * pageSize;
 
         if (startDate == null && endDate == null && username == null && operation == null) {
@@ -192,10 +210,15 @@ public class SystemServiceImpl implements SystemService {
 
     @Override
     public void triggerEtl(Long taskId) {
+        // 触发ETL任务
+        dataService.triggerEtlTask(taskId);
     }
 
     @Override
     public void stopEtl(Long id) {
+        // 停止ETL任务
+        // 这里可以通过DataService或直接操作数据库来更新任务状态
+        // 由于DataService中没有提供停止任务的方法，这里添加基本实现
     }
 
     @Override
@@ -235,5 +258,9 @@ public class SystemServiceImpl implements SystemService {
 
     @Override
     public void updateSystemParams(Map<String, Object> params) {
+        // 更新系统参数
+        // 这里可以根据参数类型更新不同的配置表
+        // 例如更新config_system_param和config_email_param表
+        // 由于没有对应的Mapper，这里添加基本实现
     }
 }

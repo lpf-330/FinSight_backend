@@ -18,4 +18,5 @@ public class User {
     private String status;
     private LocalDateTime lastLogin;
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

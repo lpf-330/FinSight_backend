@@ -25,6 +25,8 @@ public interface ConfigService {
     Knowledge createKnowledge(Knowledge knowledge);
     Knowledge updateKnowledge(Long id, Knowledge knowledge);
     void deleteKnowledge(Long id);
+    Map<String, Object> exportKnowledge();
+    void importKnowledge(List<Knowledge> knowledgeList);
 
     List<ModelVersion> getVersions(String modelType);
     Map<String, Object> simulateVersion(Long versionId, String modelType);

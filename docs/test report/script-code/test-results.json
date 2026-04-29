@@ -1,0 +1,80 @@
+﻿[
+    {
+        "Passed":  true,
+        "TestId":  "1.1",
+        "ActualCode":  200,
+        "TestName":  "Normal login"
+    },
+    {
+        "Passed":  true,
+        "TestId":  "1.2",
+        "ActualCode":  400,
+        "TestName":  "Wrong password login"
+    },
+    {
+        "Passed":  true,
+        "TestId":  "1.3",
+        "ActualCode":  400,
+        "TestName":  "Non-existent user login"
+    },
+    {
+        "Passed":  true,
+        "TestId":  "1.4",
+        "ActualCode":  400,
+        "TestName":  "Empty username login"
+    },
+    {
+        "Passed":  true,
+        "TestId":  "1.5",
+        "ActualCode":  400,
+        "TestName":  "SQL injection protection"
+    },
+    {
+        "Passed":  true,
+        "TestId":  "2.1",
+        "ActualCode":  200,
+        "TestName":  "Get user info with valid token"
+    },
+    {
+        "Passed":  false,
+        "TestId":  "2.2",
+        "ActualCode":  400,
+        "TestName":  "Get user info without token"
+    },
+    {
+        "Passed":  false,
+        "TestId":  "2.3",
+        "ActualCode":  500,
+        "TestName":  "Get user info with invalid token"
+    },
+    {
+        "Passed":  true,
+        "TestId":  "3.1",
+        "ActualCode":  200,
+        "TestName":  "Normal logout"
+    },
+    {
+        "Passed":  false,
+        "TestId":  "3.2",
+        "ActualCode":  400,
+        "TestName":  "Logout without login"
+    },
+    {
+        "Passed":  true,
+        "TestId":  "4.1",
+        "ActualCode":  200,
+        "TestName":  "Normal password change"
+    },
+    {
+        "Passed":  true,
+        "TestId":  "4.2",
+        "ActualCode":  400,
+        "TestName":  "Wrong old password"
+    },
+    {
+        "Passed":  false,
+        "TestId":  "4.3",
+        "ActualCode":  400,
+        "TestName":  "Password change without login"
+    }
+]

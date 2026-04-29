@@ -48,14 +48,22 @@ public class AlgorithmController {
     public Result<List<WarningRecord>> getWarningRecords(
             @RequestParam(required = false) String level,
             @RequestParam(required = false) String status) {
-        List<WarningRecord> records = algorithmService.getWarningRecords(level, status);
-        return Result.success(records);
+        try {
+            List<WarningRecord> records = algorithmService.getWarningRecords(level, status);
+            return Result.success(records);
+        } catch (Exception e) {
+            return Result.error("获取预警记录失败：" + e.getMessage());
+        }
     }
 
     @PutMapping("/warning/records/{id}/ignore")
     public Result<Void> ignoreWarning(@PathVariable Long id) {
-        algorithmService.ignoreWarning(id);
-        return Result.success();
+        try {
+            algorithmService.ignoreWarning(id);
+            return Result.success();
+        } catch (Exception e) {
+            return Result.error("忽略预警失败：" + e.getMessage());
+        }
     }
 
     @GetMapping("/warning/summary")

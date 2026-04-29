@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Options;
 import java.util.List;
 
 /**
@@ -64,6 +65,7 @@ public interface UserMapper {
     /**
      * 插入用户
      */
+    @Options(useGeneratedKeys = true, keyProperty = "id")
     @Insert("INSERT INTO sys_user (username, password_hash, name, department, role_id, status, last_login, created_at, updated_at) "
             +
             "VALUES (#{username}, #{password}, #{name}, #{department}, #{roleId}, #{status}, #{lastLogin}, NOW(), NOW())")

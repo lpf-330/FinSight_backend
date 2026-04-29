@@ -164,8 +164,30 @@ public class ConfigServiceImpl implements ConfigService {
     public void switchVersion(Long versionId, String modelType) {
         ModelVersion version = modelVersionMapper.selectById(versionId);
         if (version != null) {
-            version.setIsActive(true);
-            modelVersionMapper.setActive(versionId);
+            String currentModelType = version.getModelType();
+            modelVersionMapper.deactivateByModelType(currentModelType);
+            modelVersionMapper.activateById(versionId);
+        }
+    }
+
+    @Override
+    public Map<String, Object> exportKnowledge() {
+        // 导出知识库
+        List<Knowledge> knowledgeList = knowledgeMapper.selectAll();
+        Map<String, Object> result = new HashMap<>();
+        result.put("knowledgeList", knowledgeList);
+        result.put("total", knowledgeList.size());
+        return result;
+    }
+
+    @Override
+    public void importKnowledge(List<Knowledge> knowledgeList) {
+        // 导入知识库
+        for (Knowledge knowledge : knowledgeList) {
+            knowledge.setUpdateTime(LocalDateTime.now());
+            // 检查是否已存在相同的知识条目
+            // 这里可以根据indicator和level进行判断
+            knowledgeMapper.insert(knowledge);
         }
     }
 }

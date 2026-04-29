@@ -16,7 +16,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/config")
 public class ConfigController {
-
+    //
     @Autowired
     private ConfigService configService;
 
@@ -103,6 +103,40 @@ public class ConfigController {
         return Result.success();
     }
 
+    @GetMapping("/knowledge/export")
+    public Result<Map<String, Object>> exportKnowledge() {
+        Map<String, Object> result = configService.exportKnowledge();
+        return Result.success(result);
+    }
+
+    @PostMapping("/knowledge/import")
+    public Result<Void> importKnowledge(@RequestBody Map<String, Object> request) {
+        if (request == null) {
+            return Result.badRequest("请求体不能为空");
+        }
+
+        List<Knowledge> knowledgeList = (List<Knowledge>) request.get("knowledgeList");
+        if (knowledgeList == null || knowledgeList.isEmpty()) {
+            return Result.badRequest("知识库列表不能为空");
+        }
+
+        for (int i = 0; i < knowledgeList.size(); i++) {
+            Knowledge knowledge = knowledgeList.get(i);
+            if (knowledge == null) {
+                return Result.badRequest("第 " + (i + 1) + " 条知识库记录不能为空");
+            }
+            if (knowledge.getIndicator() == null || knowledge.getIndicator().trim().isEmpty()) {
+                return Result.badRequest("第 " + (i + 1) + " 条知识库记录的指标名称不能为空");
+            }
+            if (knowledge.getContent() == null || knowledge.getContent().trim().isEmpty()) {
+                return Result.badRequest("第 " + (i + 1) + " 条知识库记录的内容不能为空");
+            }
+        }
+
+        configService.importKnowledge(knowledgeList);
+        return Result.success();
+    }
+
     @GetMapping("/version")
     public Result<List<ModelVersion>> getVersions(@RequestParam(required = false) String modelType) {
         List<ModelVersion> versions = configService.getVersions(modelType);
@@ -119,9 +153,13 @@ public class ConfigController {
 
     @PutMapping("/version/switch")
     public Result<Void> switchVersion(@RequestBody Map<String, Object> request) {
-        Long versionId = ((Number) request.get("versionId")).longValue();
-        String modelType = (String) request.get("modelType");
-        configService.switchVersion(versionId, modelType);
-        return Result.success();
+        try {
+            Long versionId = ((Number) request.get("versionId")).longValue();
+            String modelType = (String) request.get("modelType");
+            configService.switchVersion(versionId, modelType);
+            return Result.success();
+        } catch (Exception e) {
+            return Result.error("版本切换失败：" + e.getMessage());
+        }
     }
 }

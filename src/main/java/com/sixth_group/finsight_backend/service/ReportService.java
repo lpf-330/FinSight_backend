@@ -11,8 +11,17 @@ import java.util.Map;
  */
 public interface ReportService {
     Map<String, Object> getDashboardData();
+
     Map<String, Object> getChartsData(String period, String chartType);
-    Map<String, Object> generatePdfReport(String name, String type, String period, Boolean includeWarning, Boolean includeRatio, Boolean includeTrend, Boolean includeInvestment);
+
+    Map<String, Object> generatePdfReport(String name, String type, String period, Boolean includeWarning,
+            Boolean includeRatio, Boolean includeTrend, Boolean includeInvestment);
+
     List<PdfReport> getPdfReportHistory();
+
     List<Map<String, Object>> getBenchmarkData(String period, String industry);
+
+    Map<String, Object> uploadBenchmarkData(org.springframework.web.multipart.MultipartFile file);
+
+    void downloadBenchmarkTemplate(jakarta.servlet.http.HttpServletResponse response);
 }

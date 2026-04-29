@@ -16,4 +16,5 @@ public class Role {
     private Integer userCount;
     private String permissions;
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

@@ -29,10 +29,30 @@ public class AuthController {
     }
 
     @GetMapping("/user-info")
-    public Result<UserInfoResponse> getUserInfo(@RequestHeader("Authorization") String token) {
+    public Result<UserInfoResponse> getUserInfo(@RequestHeader(value = "Authorization", required = false) String token) {
+        if (token == null || token.isEmpty()) {
+            return Result.error(401, "未提供认证Token");
+        }
+        
         // 将token转换为用户id
         String realToken = token.replace("Bearer ", "");
-        Long userId = (Long) JwtUtils.parseToken(realToken).get("userId");
+        Object userIdObj = null;
+        Long userId = null;
+        
+        try {
+            userIdObj = JwtUtils.parseToken(realToken).get("userId");
+        } catch (Exception e) {
+            return Result.error(401, "无效的Token");
+        }
+        
+        // 处理JWT中Long类型被序列化为Integer的情况
+        if (userIdObj instanceof Integer) {
+            userId = ((Integer) userIdObj).longValue();
+        } else if (userIdObj instanceof Long) {
+            userId = (Long) userIdObj;
+        } else {
+            return Result.error(401, "无效的Token");
+        }
 
         // 从数据库中查询用户信息
         try {
@@ -45,10 +65,30 @@ public class AuthController {
 
     @PutMapping("/change-password")
     public Result<Void> changePassword(@RequestBody ChangePasswordRequest changeRequest,
-            @RequestHeader("Authorization") String token) {
+            @RequestHeader(value = "Authorization", required = false) String token) {
+        if (token == null || token.isEmpty()) {
+            return Result.error(401, "未提供认证Token");
+        }
+        
         // 将token转换为用户id
         String realToken = token.replace("Bearer ", "");
-        Long userId = (Long) JwtUtils.parseToken(realToken).get("userId");
+        Object userIdObj = null;
+        Long userId = null;
+        
+        try {
+            userIdObj = JwtUtils.parseToken(realToken).get("userId");
+        } catch (Exception e) {
+            return Result.error(401, "无效的Token");
+        }
+        
+        // 处理JWT中Long类型被序列化为Integer的情况
+        if (userIdObj instanceof Integer) {
+            userId = ((Integer) userIdObj).longValue();
+        } else if (userIdObj instanceof Long) {
+            userId = (Long) userIdObj;
+        } else {
+            return Result.error(401, "无效的Token");
+        }
 
         try {
             authService.changePassword(userId, changeRequest.getOldPassword(), changeRequest.getNewPassword());
@@ -56,5 +96,27 @@ public class AuthController {
         } catch (Exception e) {
             return Result.badRequest(e.getMessage());
         }
+    }
+
+    /**
+     * 用户退出登录
+     * 
+     * @param token 认证令牌
+     * @return 退出结果
+     */
+    @PostMapping("/logout")
+    public Result<Void> logout(@RequestHeader(value = "Authorization", required = false) String token) {
+        if (token == null || token.isEmpty()) {
+            return Result.error(401, "未提供认证Token");
+        }
+        
+        String realToken = token.replace("Bearer ", "");
+        try {
+            JwtUtils.parseToken(realToken);
+        } catch (Exception e) {
+            return Result.error(401, "无效的Token");
+        }
+        
+        return Result.success();
     }
 }

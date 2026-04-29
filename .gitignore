@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### 运行日志 ###
+operation.log/
+operation.log.*.log
+operation.log.*.log.gz
