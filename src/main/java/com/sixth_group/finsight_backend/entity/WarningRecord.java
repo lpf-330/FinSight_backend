@@ -20,6 +20,6 @@ public class WarningRecord {
     private String trend;
     private String suggestion;
     private String status;
-    private String period;
+    private String fiscalPeriod;
     private LocalDateTime triggeredAt;
 }

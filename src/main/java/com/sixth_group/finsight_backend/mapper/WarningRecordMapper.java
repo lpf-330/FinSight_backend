@@ -23,7 +23,7 @@ public interface WarningRecordMapper {
      */
     @Select("SELECT id, indicator, indicator_code AS indicatorCode, level, current_value AS currentValue, " +
             "yellow_threshold AS yellowThreshold, orange_threshold AS orangeThreshold, red_threshold AS redThreshold, " +
-            "trend, suggestion, status, period, triggered_at AS triggeredAt " +
+            "trend, suggestion, status, fiscal_period AS fiscalPeriod, triggered_at AS triggeredAt " +
             "FROM algo_warning_record WHERE id = #{id}")
     WarningRecord selectById(@Param("id") Long id);
 
@@ -46,7 +46,7 @@ public interface WarningRecordMapper {
     @Select("<script>" +
             "SELECT id, indicator, indicator_code AS indicatorCode, level, current_value AS currentValue, " +
             "yellow_threshold AS yellowThreshold, orange_threshold AS orangeThreshold, red_threshold AS redThreshold, " +
-            "trend, suggestion, status, period, triggered_at AS triggeredAt " +
+            "trend, suggestion, status, fiscal_period AS fiscalPeriod, triggered_at AS triggeredAt " +
             "FROM algo_warning_record " +
             "WHERE 1=1 " +
             "<if test='level != null and level != \"\"'>" +
@@ -73,9 +73,9 @@ public interface WarningRecordMapper {
      * @return 影响行数
      */
     @Insert("INSERT INTO algo_warning_record (indicator, indicator_code, level, current_value, " +
-            "yellow_threshold, orange_threshold, red_threshold, trend, suggestion, status, period, triggered_at) " +
+            "yellow_threshold, orange_threshold, red_threshold, trend, suggestion, status, fiscal_period, triggered_at) " +
             "VALUES (#{indicator}, #{indicatorCode}, #{level}, #{currentValue}, " +
-            "#{yellowThreshold}, #{orangeThreshold}, #{redThreshold}, #{trend}, #{suggestion}, #{status}, #{period}, NOW())")
+            "#{yellowThreshold}, #{orangeThreshold}, #{redThreshold}, #{trend}, #{suggestion}, #{status}, #{fiscalPeriod}, NOW())")
     int insert(WarningRecord record);
 
     /**
