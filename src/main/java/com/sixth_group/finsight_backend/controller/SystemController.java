@@ -18,7 +18,7 @@ import java.util.Map;
  * 处理用户管理、角色管理、审计日志、ETL监控、系统参数等系统相关HTTP请求
  */
 @RestController
-@RequestMapping("/api/system")
+@RequestMapping("/system")
 public class SystemController {
 
     @Autowired

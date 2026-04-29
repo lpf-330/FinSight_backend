@@ -16,7 +16,7 @@ import java.util.Map;
  * 处理仪表盘数据、图表数据、PDF报告生成、对标数据等报告相关HTTP请求
  */
 @RestController
-@RequestMapping("/api/report")
+@RequestMapping("/report")
 public class ReportController {
 
     @Autowired

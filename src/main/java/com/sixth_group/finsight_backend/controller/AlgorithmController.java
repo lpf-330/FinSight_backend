@@ -17,7 +17,7 @@ import java.util.Map;
  * 处理财务比率计算、预警管理、投资分析、利润预测、趋势分析等算法相关HTTP请求
  */
 @RestController
-@RequestMapping("/api/algorithm")
+@RequestMapping("/algorithm")
 public class AlgorithmController {
 
     @Autowired

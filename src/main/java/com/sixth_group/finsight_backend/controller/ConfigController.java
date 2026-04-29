@@ -14,7 +14,7 @@ import java.util.Map;
  * 处理公式管理、阈值配置、知识库、模型版本等配置相关HTTP请求
  */
 @RestController
-@RequestMapping("/api/config")
+@RequestMapping("/config")
 public class ConfigController {
     //
     @Autowired
