@@ -255,7 +255,19 @@ public class AlgorithmServiceImpl implements AlgorithmService {
 
         List<Map<String, Object>> data = new ArrayList<>();
         String[] monthsArr = {"2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04"};
-        double[] values = {16.8, 16.2, 15.9, 16.1, 15.5, 15.8, 16.0, 15.7, 15.9, 16.2, 15.8, 15.6};
+        
+        double[] values;
+        if ("毛利率".equals(indicator)) {
+            values = new double[]{28.5, 29.2, 27.8, 28.1, 26.5, 27.2, 28.0, 26.8, 27.5, 28.2, 27.0, 26.5};
+        } else if ("净利率".equals(indicator)) {
+            values = new double[]{12.3, 12.8, 11.9, 12.1, 11.2, 11.5, 12.0, 11.3, 11.8, 12.2, 11.5, 11.0};
+        } else if ("ROE".equals(indicator)) {
+            values = new double[]{16.8, 16.2, 15.9, 16.1, 15.5, 15.8, 16.0, 15.7, 15.9, 16.2, 15.8, 15.6};
+        } else if ("资产负债率".equals(indicator)) {
+            values = new double[]{58.2, 57.8, 59.1, 58.5, 60.2, 59.5, 58.8, 60.1, 59.3, 58.7, 59.8, 60.5};
+        } else {
+            values = new double[]{16.8, 16.2, 15.9, 16.1, 15.5, 15.8, 16.0, 15.7, 15.9, 16.2, 15.8, 15.6};
+        }
 
         for (int i = 0; i < Math.min(months, 12); i++) {
             Map<String, Object> item = new HashMap<>();
